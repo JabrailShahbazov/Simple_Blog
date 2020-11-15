@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blog.Data;
 using Blog.Data.Repositories;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -32,7 +33,7 @@ namespace Blog
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             //User ve roleden toretdiyim class varsa onu qeyd edirsen bura
-            services.AddIdentity<IdentityUser, IdentityRole>() 
+            services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -47,6 +48,20 @@ namespace Blog
                 options.Password.RequiredLength = 6;
                 options.Password.RequiredUniqueChars = 1;
             });
+
+            //Customize Cookie for admin panel and etc
+            services.ConfigureApplicationCookie(options =>
+            {
+                //options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                //options.Cookie.Name = "YourAppCookieName";
+                //options.Cookie.HttpOnly = true;
+                //options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+                options.LoginPath = "/Auth/Login";
+                // ReturnUrlParameter requires 
+                //options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+                //options.SlidingExpiration = true;
+            });
+
 
             services.AddTransient<IRepository, Repository>();
         }
