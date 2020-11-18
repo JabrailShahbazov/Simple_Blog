@@ -3,9 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blog.Data.FileManager;
 using Blog.Data.Repositories;
 using Blog.Models;
+using Blog.ViewModel;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components;
 
 namespace Blog.Controllers
 {
@@ -13,10 +16,12 @@ namespace Blog.Controllers
     public class PanelController : Controller
     {
         private readonly IRepository _repository;
+        private readonly IFileManager _fileManager;
 
-        public PanelController(IRepository repository)
+        public PanelController(IRepository repository , IFileManager fileManager)
         {
             _repository = repository;
+            _fileManager = fileManager;
         }
 
 
@@ -31,18 +36,31 @@ namespace Blog.Controllers
         {
             if (id == null)
             {
-                return View(new Post());
+                return View(new PostViewModel());
             }
             else
             {
                 var post = _repository.GetPost(id);
-                return View(post);
+                return View(new PostViewModel
+                {
+                    Id = post.Id,
+                    Title = post.Title,
+                    Body = post.Body,
+                });
             }
            
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(Post post)
+        public async Task<IActionResult> Edit(PostViewModel vm)
         {
+            var post =new Post
+            {
+                Id = vm.Id,
+                Title = vm.Title,
+                Body = vm.Body,
+                Image = await _fileManager.SaveImage(vm.Image)
+            };
+
             if (post.Id > 0)
                 _repository.UpdatePost(post);
             else
@@ -51,7 +69,7 @@ namespace Blog.Controllers
             if (await _repository.SaveChangesAsync())
                 return RedirectToAction("Index");
             else
-                return View(post);
+                return View();
         }
 
         [HttpGet]

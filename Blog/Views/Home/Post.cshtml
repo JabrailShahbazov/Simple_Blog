@@ -6,4 +6,11 @@
 <h2>Post</h2>
 
 <h2>@Model.Title</h2>
+
+@if (!String.IsNullOrEmpty(Model.Image))
+{
+    var imagePath = $"/Image/{Model.Image}";
+    <img src="@imagePath" asp-append-version="IsLayoutBeingRendered" width="500"/>
+}
+
 <h2>@Model.Body</h2>

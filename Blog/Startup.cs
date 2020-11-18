@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blog.Data;
+using Blog.Data.FileManager;
 using Blog.Data.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
@@ -64,6 +65,7 @@ namespace Blog
 
 
             services.AddTransient<IRepository, Repository>();
+            services.AddTransient<IFileManager, FileManager>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -72,6 +74,9 @@ namespace Blog
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            //get Static files .. img, mp3....
+            app.UseStaticFiles();
 
             app.UseRouting();
             app.UseAuthentication();
