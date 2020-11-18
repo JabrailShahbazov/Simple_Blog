@@ -17,4 +17,9 @@
     <Folder Include="wwwroot\content\blog\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\lib\Trumbowyg-master\.github\FUNDING.yml" />
+    <None Include="wwwroot\lib\Trumbowyg-master\.github\ISSUE_TEMPLATE.md" />
+  </ItemGroup>
+
 </Project>
