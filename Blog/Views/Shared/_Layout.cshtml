@@ -4,8 +4,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width , initial-scale=1.0" />
-    <title>@ViewBag.Title</title>
+    @await RenderSectionAsync("style",false)
     <link href="~/css/site.css" rel="stylesheet" />
+    <title>@ViewBag.Title</title>
+
 </head>
 <body>
     <div>
@@ -26,6 +28,6 @@
 <div>
     @RenderBody()
 </div>
-@await RenderSectionAsync("scripts",false);
+@await RenderSectionAsync("scripts",false)
 </body>
 </html>

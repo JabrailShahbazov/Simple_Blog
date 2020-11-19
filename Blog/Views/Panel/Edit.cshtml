@@ -3,7 +3,11 @@
 @{
 
 }
+
+@section style
+{
 <link href="~/lib/Trumbowyg-master/dist/ui/trumbowyg.min.css" rel="stylesheet" />
+}
 <div>
     <form asp-action="Edit" asp-controller="Panel" method="post" enctype="multipart/form-data">
         <input asp-for="Id" type="hidden" />
@@ -11,8 +15,8 @@
             <label>Title</label>
             <input asp-for="Title" />
         </div>
-        <div>
-            <label>Body</label>
+        <div style="background-color: white">
+           
             <textarea id="editor" asp-for="Body"></textarea>
         </div>
         <div>
@@ -25,7 +29,7 @@
 </div>
 
 @section scripts{
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="~/lib/Trumbowyg-master/dist/trumbowyg.min.js"></script>
     <script>
         $('#editor').trumbowyg();
