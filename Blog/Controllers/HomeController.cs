@@ -16,10 +16,10 @@ namespace Blog.Controllers
             _repository = repository;
             _fileManager = fileManager;
         }
-        public IActionResult Index()
+        public IActionResult Index(string category)
         {
-            
-            return View(_repository.GetAllPosts());
+            var posts = string.IsNullOrEmpty(category) ? _repository.GetAllPosts() : _repository.GetAllPosts(category);
+            return View(posts);
         }
 
         public IActionResult Post(int id)

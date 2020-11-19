@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blog.Models;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace Blog.Data.Repositories
 {
@@ -21,6 +23,12 @@ namespace Blog.Data.Repositories
         public List<Post> GetAllPosts()
         {
             return _appDbContext.Posts.ToList();
+        } 
+
+        public List<Post> GetAllPosts(string category)
+        {
+            Func<Post, bool> inCategory = (post) => post.Category.ToLower().Equals(category.ToLower());
+            return _appDbContext.Posts.Where(posts=> inCategory(posts)).ToList();
         }
 
         public void AddPost(Post post)
