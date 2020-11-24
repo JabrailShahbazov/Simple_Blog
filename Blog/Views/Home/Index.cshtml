@@ -4,25 +4,12 @@
     ViewBag.Description = "This Blog has everything!";
     ViewBag.Keywords = "blog programming travel photography";
 }
-@*<h2> Home</h2>*@
-@*<img src="~/content/static/img1.jpg" width="500px"/>*@
+
 <div class="main-img">
     <span class="title">Amazing Blog Site</span>
 </div>
 
 <div class="container-post">
-    @*<ul>
-            @foreach (var post in Model)
-            {
-                <li>
-                    <a asp-controller="Home" asp-action="Post" asp-route-id="@post.Id">
-                        @post.Title
-                    </a>
-
-                </li>
-            }
-        </ul>*@
-
     @foreach (var post in Model.Posts)
     {
         var imagePath = $"/Image/{post.Image}";
@@ -31,16 +18,25 @@
             <span class="title">@post.Title</span>
         </a>
     }
-    <div>
+    <div class="pages">
         @if (Model.PageNumber > 1)
         {
             <a asp-action="Index" asp-controller="Home" asp-route-pageNumber="@(Model.PageNumber - 1)"
-               asp-route-category="@Model.Category"> Previous Page   </a>
+               asp-route-category="@Model.Category">&gt;</a>
         }
+
+        @for (int i = 1; i <= Model.PageCount; i++)
+        {
+
+            string activeClass = i == Model.PageNumber ? "aktive" : "";
+            <a class="@activeClass" asp-action="Index" asp-controller="Home" asp-route-pageNumber="@i"
+               asp-route-category="@Model.Category"> @i </a>
+        }
+
         @if (Model.NextPage)
         {
             <a asp-action="Index" asp-controller="Home" asp-route-pageNumber="@(Model.PageNumber + 1)"
-               asp-route-category="@Model.Category">  Next Page</a>
+               asp-route-category="@Model.Category"> &lt; </a>
         }
     </div>
 </div>

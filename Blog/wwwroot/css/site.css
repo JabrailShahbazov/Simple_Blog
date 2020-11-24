@@ -2,13 +2,15 @@
     margin: 0;
     background-color: lavender
 }
+
 a {
     color: white;
     text-decoration: none;
 }
-a:hover {
-    text-decoration: underline;
-}
+
+    a:hover {
+        text-decoration: underline;
+    }
 
 nav {
     background-color: #000232;
@@ -16,11 +18,13 @@ nav {
     width: 100%;
     text-align: center;
 }
-nav a {
-    display: inline-block;
-    height: 100%;
-    padding: 15px;
-}
+
+    nav a {
+        display: inline-block;
+        height: 100%;
+        padding: 15px;
+    }
+
 .main-img {
     position: relative;
     height: 500px;
@@ -28,6 +32,7 @@ nav a {
     background-position: center;
     background-size: cover;
 }
+
 .title {
     position: absolute;
     color: white;
@@ -37,6 +42,7 @@ nav a {
     top: 35%;
     text-shadow: 0 0 8px black
 }
+
 .container-post {
     max-width: 600px;
     width: 100%;
@@ -49,14 +55,17 @@ nav a {
     height: 400px;
     box-shadow: 0 0 5px black;
 }
-.post img {
-    margin: 8px;
-    width: 100%;
-    object-fit: cover;
-}
+
+    .post img {
+        margin: 8px;
+        width: 100%;
+        object-fit: cover;
+    }
+
 .no-shadow {
     box-shadow: none;
 }
+
 .post-body {
     margin: -5px 5px 0;
     padding: 20px 5px;
@@ -64,3 +73,27 @@ nav a {
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
+
+.pages {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 2rem;
+}
+
+    .pages a {
+        background-color: #aaa;
+        color: white;
+        padding: 1rem;
+        border: 1px solid #eee;
+        margin: 0 0.25rem;
+    }
+
+        .pages a.aktive {
+            background-color: #ccc
+        }
+
+        .pages a:hover {
+            background-color: #eee;
+            text-decoration: none;
+        }
