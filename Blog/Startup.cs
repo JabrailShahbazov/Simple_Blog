@@ -28,6 +28,12 @@ namespace Blog
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddResponseCaching(options =>
+            {
+                options.MaximumBodySize = 1024;
+                options.UseCaseSensitivePaths = true;
+            });
+
             services.AddRazorPages();
 
             services.AddDbContext<AppDbContext>(options =>
@@ -74,6 +80,7 @@ namespace Blog
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseDeveloperExceptionPage();
 
             //get Static files .. img, mp3....
             app.UseStaticFiles();
@@ -81,6 +88,28 @@ namespace Blog
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseResponseCaching();
+
+            app.Use(async (context, next) =>
+            {
+                context.Response.GetTypedHeaders().CacheControl = 
+                    new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
+                    {
+                        Public = true,
+                        MaxAge = TimeSpan.FromSeconds(10)
+                    };
+                context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] = 
+                    new string[] { "Accept-Encoding" };
+
+                await next();
+            });
+
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+            });
 
             app.UseEndpoints(endpoints =>
             {

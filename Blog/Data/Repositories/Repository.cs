@@ -24,11 +24,14 @@ namespace Blog.Data.Repositories
         {
             return _appDbContext.Posts.ToList();
         } 
-
+        
         public List<Post> GetAllPosts(string category)
         {
-            Func<Post, bool> inCategory = (post) => post.Category.ToLower().Equals(category.ToLower());
-            return _appDbContext.Posts.Where(posts=> inCategory(posts)).ToList();
+            //Func<Post, bool> inCategory = (post) => post.Category.ToLower().Equals(category.ToLower());
+            //return _appDbContext.Posts.Where(posts=> inCategory(posts)).ToList();
+
+            return _appDbContext.Posts.Where(post => post.Category.ToLower().Equals(category.ToLower()))
+                .ToList();
         }
 
         public void AddPost(Post post)

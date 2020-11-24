@@ -54,6 +54,10 @@ namespace Blog.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(nullable: true),
                     Body = table.Column<string>(nullable: true),
+                    Image = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Tags = table.Column<string>(nullable: true),
+                    Category = table.Column<string>(nullable: true),
                     Created = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
