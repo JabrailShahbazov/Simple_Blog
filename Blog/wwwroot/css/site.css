@@ -102,3 +102,16 @@ nav {
     line-height: 1;
     font-size: 24px;
 }
+
+.sign-in-form {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.sign-in-form div {
+    max-width: 200px;
+    width: 100%;
+    margin-bottom: 1rem;
+}

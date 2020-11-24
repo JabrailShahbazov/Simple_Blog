@@ -2,7 +2,7 @@
 @{
 
 }
-<form asp-action="Login" asp-controller="Auth" method="post">
+<form class="sign-in-form" asp-action="Login" asp-controller="Auth" method="post">
     <div>
         <label>User Name</label>
         <input asp-for="UserName" />
@@ -13,5 +13,6 @@
     </div>
     <div>
         <input type="submit" value="Sign in"/>
+        <a asp-controller="Auth" asp-action="Register">Register</a>
     </div>
 </form>
