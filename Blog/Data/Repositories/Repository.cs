@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blog.Helpers;
 using Blog.Models;
 using Blog.ViewModel;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
@@ -38,12 +39,13 @@ namespace Blog.Data.Repositories
             }
 
             int postsCount = query.Count();
-
+            int pageCount = (int) Math.Ceiling((double) postsCount / pageSize);
             return new IndexViewModel
             {
                 PageNumber = pageNumber,
-                PageCount =(int) Math.Ceiling((double) postsCount/ pageSize),
+                PageCount = pageCount,
                 NextPage = postsCount > skipAmount + pageSize,
+                Pages = PageHelper.PageNumbers(pageNumber, pageCount).ToList(),
                 Category = category,
                 Posts = query
                     .Skip(skipAmount)
@@ -52,7 +54,7 @@ namespace Blog.Data.Repositories
             };
         }
 
-
+      
         public void AddPost(Post post)
         {
             _appDbContext.Posts.AddAsync(post);
