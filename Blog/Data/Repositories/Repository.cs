@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blog.Models;
+using Blog.ViewModel;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace Blog.Data.Repositories
@@ -23,16 +24,33 @@ namespace Blog.Data.Repositories
         public List<Post> GetAllPosts()
         {
             return _appDbContext.Posts.ToList();
-        } 
-        
-        public List<Post> GetAllPosts(string category)
-        {
-            //Func<Post, bool> inCategory = (post) => post.Category.ToLower().Equals(category.ToLower());
-            //return _appDbContext.Posts.Where(posts=> inCategory(posts)).ToList();
-
-            return _appDbContext.Posts.Where(post => post.Category.ToLower().Equals(category.ToLower()))
-                .ToList();
         }
+        public IndexViewModel GetAllPosts(int pageNumber, string category)
+        {
+            int pageSize = 5;
+            int skipAmount = pageSize * (pageNumber - 1);
+
+            var query = _appDbContext.Posts.AsQueryable();
+
+            if (!String.IsNullOrEmpty(category))
+            {
+                query = query.Where(post => post.Category.ToLower().Equals(category.ToLower()));
+            }
+
+            int postsCount = query.Count();
+
+            return new IndexViewModel
+            {
+                PageNumber = pageNumber,
+                NextPage = postsCount > skipAmount + pageSize,
+                Category = category,
+                Posts = query
+                    .Skip(skipAmount)
+                    .Take(pageSize)
+                    .ToList()
+            };
+        }
+
 
         public void AddPost(Post post)
         {

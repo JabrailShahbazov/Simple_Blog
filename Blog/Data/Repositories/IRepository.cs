@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blog.Models;
+using Blog.ViewModel;
 
 namespace Blog.Data.Repositories
 {
@@ -8,7 +9,7 @@ namespace Blog.Data.Repositories
     {
         Post GetPost(int? id);
         List<Post> GetAllPosts();
-        List<Post> GetAllPosts(string category);
+        IndexViewModel GetAllPosts(int pageNumber , string category);
         void AddPost(Post post);
         void UpdatePost(Post post);
         void RemovePost(int id);

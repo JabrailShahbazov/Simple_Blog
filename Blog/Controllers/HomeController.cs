@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Blog.Data.FileManager;
 using Blog.Data.Repositories;
 using Blog.Models;
+using Blog.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.Controllers
@@ -20,18 +21,25 @@ namespace Blog.Controllers
 
 
 
-        public IActionResult Index(string category) => 
-            View(string.IsNullOrEmpty(category) ?
-                _repository.GetAllPosts() :
-                _repository.GetAllPosts(category));
+        public IActionResult Index(int pageNumber, string category)
+        {
+            if (pageNumber < 1)
+            {
+                return RedirectToAction("Index", new { pageNumber = 1 , category});
+            }
 
-        public IActionResult Post(int id) => 
+            var vm = _repository.GetAllPosts(pageNumber ,category );
+
+            return View(vm);
+        }
+
+        public IActionResult Post(int id) =>
             View(_repository.GetPost(id));
 
         [HttpGet("/Image/{image}")]
-        public IActionResult Image(string image) => 
+        public IActionResult Image(string image) =>
             new FileStreamResult(_fileManager.ImageStream(image),
-                $"image/{image.Substring(image.LastIndexOf('.')+1)}");
+                $"image/{image.Substring(image.LastIndexOf('.') + 1)}");
 
 
         //public IActionResult Index(string category)

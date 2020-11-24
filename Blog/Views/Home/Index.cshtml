@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Post>
+﻿@model IndexViewModel
 @{
     ViewBag.Title = "Blog Website";
     ViewBag.Description = "This Blog has everything!";
@@ -12,23 +12,35 @@
 
 <div class="container-post">
     @*<ul>
-        @foreach (var post in Model)
-        {
-            <li>
-                <a asp-controller="Home" asp-action="Post" asp-route-id="@post.Id">
-                    @post.Title
-                </a>
-            
-            </li>
-        }
-    </ul>*@
-    
-    @foreach (var post in Model)
+            @foreach (var post in Model)
+            {
+                <li>
+                    <a asp-controller="Home" asp-action="Post" asp-route-id="@post.Id">
+                        @post.Title
+                    </a>
+
+                </li>
+            }
+        </ul>*@
+
+    @foreach (var post in Model.Posts)
     {
         var imagePath = $"/Image/{post.Image}";
         <a class="post" asp-controller="Home" asp-action="Post" asp-route-id="@post.Id">
-        <img src="@imagePath" asp-append-version="IsLayoutBeingRendered"/>
+            <img src="@imagePath" asp-append-version="IsLayoutBeingRendered" />
             <span class="title">@post.Title</span>
         </a>
     }
+    <div>
+        @if (Model.PageNumber > 1)
+        {
+            <a asp-action="Index" asp-controller="Home" asp-route-pageNumber="@(Model.PageNumber - 1)"
+               asp-route-category="@Model.Category"> Previous Page   </a>
+        }
+        @if (Model.NextPage)
+        {
+            <a asp-action="Index" asp-controller="Home" asp-route-pageNumber="@(Model.PageNumber + 1)"
+               asp-route-category="@Model.Category">  Next Page</a>
+        }
+    </div>
 </div>
