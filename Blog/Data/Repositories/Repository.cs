@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Blog.Helpers;
 using Blog.Models;
 using Blog.ViewModel;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace Blog.Data.Repositories
@@ -26,20 +27,27 @@ namespace Blog.Data.Repositories
         {
             return _appDbContext.Posts.ToList();
         }
-        public IndexViewModel GetAllPosts(int pageNumber, string category)
+        public IndexViewModel GetAllPosts(int pageNumber, string category, string search)
         {
             int pageSize = 5;
             int skipAmount = pageSize * (pageNumber - 1);
 
-            var query = _appDbContext.Posts.AsQueryable();
+            var query = _appDbContext.Posts.AsNoTracking().AsQueryable();
 
             if (!String.IsNullOrEmpty(category))
             {
                 query = query.Where(post => post.Category.ToLower().Equals(category.ToLower()));
             }
 
+            if (!String.IsNullOrEmpty(search))
+            {
+                query = query.Where(x => EF.Functions.Like(x.Title, $"%{search}%")
+                                         || EF.Functions.Like(x.Body, $"%{search}%")
+                                         || EF.Functions.Like(x.Description, $"%{search}%"));
+            }
+
             int postsCount = query.Count();
-            int pageCount = (int) Math.Ceiling((double) postsCount / pageSize);
+            int pageCount = (int)Math.Ceiling((double)postsCount / pageSize);
             return new IndexViewModel
             {
                 PageNumber = pageNumber,
@@ -47,6 +55,7 @@ namespace Blog.Data.Repositories
                 NextPage = postsCount > skipAmount + pageSize,
                 Pages = PageHelper.PageNumbers(pageNumber, pageCount).ToList(),
                 Category = category,
+                Search = search,
                 Posts = query
                     .Skip(skipAmount)
                     .Take(pageSize)
@@ -54,7 +63,7 @@ namespace Blog.Data.Repositories
             };
         }
 
-      
+
         public void AddPost(Post post)
         {
             _appDbContext.Posts.AddAsync(post);

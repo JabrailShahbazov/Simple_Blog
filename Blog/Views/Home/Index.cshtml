@@ -7,6 +7,13 @@
 
 <div class="main-img">
     <span class="title">Amazing Blog Site</span>
+
+    <form asp-controller="Home" asp-action="Index" method="post">
+        <input type="hidden" name="pageNumber" value="@Model.PageNumber" />
+        <input type="hidden" name="category" value="@Model.Category" />
+        <input class="search" type="text" name="search" placeholder="Search Blog" value="@Model.Search" />
+        <button class="submit-btnm">Search</button>
+    </form>
 </div>
 
 <div class="container-post">
@@ -19,5 +26,5 @@
         </a>
     }
 
-    <partial name="_BlogPagination" model="Model"/>
+    <partial name="_BlogPagination" model="Model" />
 </div>

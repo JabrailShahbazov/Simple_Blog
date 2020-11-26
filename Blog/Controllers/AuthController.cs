@@ -39,12 +39,11 @@ namespace Blog.Controllers
             }
 
             var user = await _userManager.FindByNameAsync(model.UserName);
-           var isAdmin= await _userManager.IsInRoleAsync(user, "admin");
+            var isAdmin = await _userManager.IsInRoleAsync(user, "admin");
 
             if (isAdmin)
             {
-                
-            return RedirectToAction("Index", "Panel");
+                return RedirectToAction("Index", "Panel");
             }
 
             return RedirectToAction("Index", "Home");
