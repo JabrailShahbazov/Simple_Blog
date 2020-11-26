@@ -1,0 +1,7 @@
+Froala WYSIWYG Editor
+================
+
+In order to use Froala Editor you have to purchase a license from: https://www.froala.com/wysiwyg-editor/pricing.
+For more informations regarding the license please read https://www.froala.com/wysiwyg-editor/terms.
+<link href='https://cdn.jsdelivr.net/npm/froala-editor@3.1.0/css/froala_editor.pkgd.min.css' rel='stylesheet' type='text/css' />
+<script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@3.1.0/js/froala_editor.pkgd.min.js'></script>
